@@ -30,13 +30,12 @@
 // ----- Callback function types -----
 
 extern "C" {
-typedef void (*callbackFunction)(void);
-typedef void (*parameterizedCallbackFunction)(void *);
+  typedef void (*callbackFunction)(void);
+  typedef void (*parameterizedCallbackFunction)(void *);
 }
 
 
-class OneButton
-{
+class OneButton {
 public:
   // ----- Constructor -----
   OneButton();
@@ -47,29 +46,32 @@ public:
    * @param activeLow Set to true when the input level is LOW when the button is pressed, Default is true.
    * @param pullupActive Activate the internal pullup when available. Default is true.
    */
-  explicit OneButton(const int pin, const boolean activeLow = true, const bool pullupActive = true);
+  explicit OneButton(const int pin, const boolean activeLow = true);
 
   // ----- Set runtime parameters -----
 
   /**
    * set # millisec after safe click is assumed.
    */
-  [[deprecated("Use setDebounceMs() instead.")]]
-  void setDebounceTicks(const unsigned int ms) { setDebounceMs(ms); }; // deprecated
+  [[deprecated("Use setDebounceMs() instead.")]] void setDebounceTicks(const unsigned int ms) {
+    setDebounceMs(ms);
+  };  // deprecated
   void setDebounceMs(const unsigned int ms);
 
   /**
    * set # millisec after single click is assumed.
    */
-  [[deprecated("Use setClickMs() instead.")]]
-  void setClickTicks(const unsigned int ms) { setClickMs(ms); }; // deprecated
+  [[deprecated("Use setClickMs() instead.")]] void setClickTicks(const unsigned int ms) {
+    setClickMs(ms);
+  };  // deprecated
   void setClickMs(const unsigned int ms);
 
   /**
    * set # millisec after press is assumed.
    */
-  [[deprecated("Use setPressMs() instead.")]]
-  void setPressTicks(const unsigned int ms) { setPressMs(ms); }; // deprecated
+  [[deprecated("Use setPressMs() instead.")]] void setPressTicks(const unsigned int ms) {
+    setPressMs(ms);
+  };  // deprecated
   void setPressMs(const unsigned int ms);
 
   // ----- Attach events functions -----
@@ -149,23 +151,27 @@ public:
    * @return true if we are currently handling button press flow
    * (This allows power sensitive applications to know when it is safe to power down the main CPU)
    */
-  bool isIdle() const { return _state == OCS_INIT; }
+  bool isIdle() const {
+    return _state == OCS_INIT;
+  }
 
   /**
    * @return true when a long press is detected
    */
-  bool isLongPressed() const { return _state == OCS_PRESS; };
+  bool isLongPressed() const {
+    return _state == OCS_PRESS;
+  };
 
 
 private:
-  int _pin = -1;                  // hardware pin number.
-  unsigned int _debounce_ms = 50; // number of msecs for debounce times.
-  unsigned int _click_ms = 400;   // number of msecs before a click is detected.
-  unsigned int _press_ms = 800;   // number of msecs before a long button press is detected
+  int _pin = -1;                   // hardware pin number.
+  unsigned int _debounce_ms = 50;  // number of msecs for debounce times.
+  unsigned int _click_ms = 400;    // number of msecs before a click is detected.
+  unsigned int _press_ms = 800;    // number of msecs before a long button press is detected
 
-  int _buttonPressed = 0; // this is the level of the input pin when the button is pressed.
-                          // LOW if the button connects the input pin to GND when pressed.
-                          // HIGH if the button connects the input pin to VCC when pressed.
+  int _buttonPressed = 0;          // this is the level of the input pin when the button is pressed.
+                                   // LOW if the button connects the input pin to GND when pressed.
+                                   // HIGH if the button connects the input pin to VCC when pressed.
 
   // These variables will hold functions acting as event source.
   callbackFunction _clickFunc = NULL;
@@ -199,10 +205,10 @@ private:
   // define FiniteStateMachine
   enum stateMachine_t : int {
     OCS_INIT = 0,
-    OCS_DOWN = 1, // button is down
-    OCS_UP = 2, // button is up
+    OCS_DOWN = 1,   // button is down
+    OCS_UP = 2,     // button is up
     OCS_COUNT = 3,
-    OCS_PRESS = 6, // button is hold down
+    OCS_PRESS = 6,  // button is hold down
     OCS_PRESSEND = 7,
   };
 
@@ -219,19 +225,25 @@ private:
   stateMachine_t _state = OCS_INIT;
 
   int debouncedPinLevel = -1;
-  int _lastDebouncePinLevel = -1;      // used for pin debouncing
-  unsigned long _lastDebounceTime = 0; // millis()
-  unsigned long now = 0;               // millis()
+  int _lastDebouncePinLevel = -1;       // used for pin debouncing
+  unsigned long _lastDebounceTime = 0;  // millis()
+  unsigned long now = 0;                // millis()
 
-  unsigned long _startTime = 0; // start of current input change to checking debouncing
-  int _nClicks = 0;             // count the number of clicks with this variable
-  int _maxClicks = 1;           // max number (1, 2, multi=3) of clicks of interest by registration of event functions.
+  unsigned long _startTime = 0;         // start of current input change to checking debouncing
+  int _nClicks = 0;                     // count the number of clicks with this variable
+  int _maxClicks = 1;                   // max number (1, 2, multi=3) of clicks of interest by registration of event functions.
 
 public:
-  int pin() const { return _pin; };
-  stateMachine_t state() const { return _state; };
+  int pin() const {
+    return _pin;
+  };
+  stateMachine_t state() const {
+    return _state;
+  };
   int debounce(const int value);
-  int debouncedValue() const { return debouncedPinLevel; };
+  int debouncedValue() const {
+    return debouncedPinLevel;
+  };
 };
 
 #endif
